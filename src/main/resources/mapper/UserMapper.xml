@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.willxue.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.willxue.entity.User">
+		<id column="uid" property="uid" jdbcType="INTEGER" />
+		<result column="uname" property="uname" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+		<result column="birth" property="birth" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		uid, uname, pwd, birth
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user
+		where uid = #{uid,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from user
+		where uid = #{uid,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.willxue.entity.User">
+		insert into user (uid, uname, pwd,
+		birth)
+		values (#{uid,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR},
+		#{pwd,jdbcType=VARCHAR},
+		#{birth,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.willxue.entity.User">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uid != null">
+				uid,
+			</if>
+			<if test="uname != null">
+				uname,
+			</if>
+			<if test="pwd != null">
+				pwd,
+			</if>
+			<if test="birth != null">
+				birth,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uid != null">
+				#{uid,jdbcType=INTEGER},
+			</if>
+			<if test="uname != null">
+				#{uname,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				#{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="birth != null">
+				#{birth,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.willxue.entity.User">
+		update user
+		<set>
+			<if test="uname != null">
+				uname = #{uname,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				pwd = #{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="birth != null">
+				birth = #{birth,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where uid = #{uid,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.willxue.entity.User">
+		update user
+		set uname = #{uname,jdbcType=VARCHAR},
+		pwd = #{pwd,jdbcType=VARCHAR},
+		birth = #{birth,jdbcType=TIMESTAMP}
+		where uid = #{uid,jdbcType=INTEGER}
+	</update>
+</mapper>
